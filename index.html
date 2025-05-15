@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boba Home</title>
+  <link rel="icon" type="image/png" href="boba.png" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=VT323&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+    * {
+      outline: none;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: #fff5f7;
+      font-family: 'Quicksand', sans-serif;
+      color: #5a3e36;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      padding: 2em;
+      height: 100vh;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .boba-shop {
+      background-color: #fff;
+      max-width: 1350px;
+      display: grid;
+      height: 90vh;
+      max-height: 800px;
+      overflow: hidden;
+      grid-template-columns: 15% 20% 35% 30%;
+      width: 100%;
+      position: relative;
+      border: 4px solid #ffb6c1;
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(252, 186, 211, 0.3);
+    }
+
+    /* Pastel Pixel Grid overlay */
+    .boba-shop::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        linear-gradient(to right, transparent 99%, rgba(255, 182, 193, 0.2) 100%),
+        linear-gradient(to bottom, transparent 99%, rgba(255, 182, 193, 0.2) 100%);
+      background-size: 20px 20px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .boba-part {
+      padding: 20px;
+      position: relative;
+      border-right: 2px dotted #ffb6c1;
+    }
+
+    .boba-menu {
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      text-decoration: none;
+      color: #5a3e36;
+      display: flex;
+      align-items: center;
+      letter-spacing: 1px;
+      padding: 10px 0;
+      border-bottom: 2px dotted transparent;
+      transition: all 0.3s;
+    }
+
+    .boba-menu:hover {
+      border-bottom-color: #ffb6c1;
+      color: #ff85a2;
+      transform: translateX(5px);
+    }
+
+    .boba-menu svg {
+      width: 18px;
+      margin-left: 8px;
+    }
+
+    .boba-menu + .boba-menu {
+      margin-top: 15px;
+    }
+
+    .boba-menu.mention {
+      margin-top: auto;
+      font-size: 18px;
+      color: #ff85a2;
+    }
+
+    .boba-menu.subscribe {
+      margin-top: 8px;
+      font-size: 18px;
+      position: relative;
+    }
+
+    .boba-menu.subscribe:before {
+      content: "▢";
+      margin-right: 10px;
+      font-size: 20px;
+      color: #ffb6c1;
+    }
+
+    .boba-menu.rounded:before {
+      content: "●";
+      margin-right: 10px;
+      font-size: 16px;
+      color: #ff85a2;
+    }
+
+    .is-menu {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background-color: #fff9fb;
+    }
+
+    .boba-big__title {
+      font-size: 70px;
+      font-family: 'VT323', monospace;
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      color: #ff85a2;
+      text-shadow: 3px 3px 0 #ffb6c1;
+    }
+
+    .boba-header {
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      border-bottom: 2px dotted #ffb6c1;
+    }
+
+    .boba-article {
+      padding: 20px;
+    }
+
+    .boba-article img {
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+      border: 2px solid #ffb6c1;
+      box-shadow: 5px 5px 0 #ffd1dc;
+      transition: transform 0.3s;
+    }
+
+    .boba-article img:hover {
+      transform: translateY(-5px);
+    }
+
+    .page-number {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+      font-size: 60px;
+      text-align: center;
+      letter-spacing: -3px;
+      font-weight: 700;
+      font-family: 'VT323', monospace;
+      border-right: 2px dotted #ffb6c1;
+      padding-bottom: 20px;
+      color: #ff85a2;
+    }
+
+    .small-title {
+      border-bottom: 2px dotted #ffb6c1;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      font-family: 'VT323', monospace;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #ff85a2;
+    }
+
+    .date {
+      display: flex;
+      justify-content: flex-end;
+      font-family: 'VT323', monospace;
+      font-size: 14px;
+      color: #5a3e36;
+    }
+
+    .boba-article h2 {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 16px 0;
+      font-family: 'VT323', monospace;
+      text-transform: uppercase;
+      color: #5a3e36;
+    }
+
+    .boba-article h2 span {
+      background-color: #ffd1dc;
+      color: #5a3e36;
+      padding: 0 6px;
+      border-radius: 4px;
+    }
+
+    .boba-article p {
+      line-height: 1.6;
+      margin: 14px 0;
+      color: #5a3e36;
+    }
+
+    .boba-article a {
+      color: #ff85a2;
+      text-decoration: none;
+      font-family: 'VT323', monospace;
+      font-size: 16px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-top: 20px;
+      border-top: 2px dotted #ffb6c1;
+      padding-top: 14px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .boba-article a:hover {
+      color: #5a3e36;
+    }
+
+    .boba-article a svg {
+      width: 20px;
+      margin-right: 10px;
+    }
+
+    .boba-detail {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-top: 10px;
+      color: #94716b;
+    }
+
+    .boba-header-container {
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      scroll-snap-type: y mandatory;
+    }
+
+    .boba-header-container > * {
+      flex-shrink: 0;
+      min-height: 100%;
+      scroll-snap-align: start;
+    }
+
+    .boba-article:not(.header-article) {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .news-ticker {
+      font-family: 'VT323', monospace;
+      font-size: 16px;
+      background-color: #ffd1dc;
+      color: #5a3e36;
+      padding: 10px 0;
+      width: 100%;
+      flex-shrink: 0;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .ticker-content {
+      display: inline-block;
+      animation: ticker 30s linear infinite;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .ticker-item {
+      display: inline-block;
+      margin-right: 50px;
+    }
+
+    .ticker-item::before {
+      content: "●";
+      margin-right: 10px;
+      margin-left: 10px;
+      color: #ff85a2;
+    }
+
+    .boba-right {
+      overflow: auto;
+      height: calc(100% - 60px);
+      padding: 0 20px;
+    }
+
+    .boba-right-title {
+      font-size: 22px;
+      font-family: 'VT323', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #5a3e36;
+    }
+
+    .boba-right-title-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px dotted #ffb6c1;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      padding-top: 20px;
+    }
+
+    .boba-title-date {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .boba-right-page {
+      font-size: 40px;
+      margin-bottom: 10px;
+      font-family: 'VT323', monospace;
+      font-weight: 700;
+      color: #ff85a2;
+    }
+
+    .boba-right-page-title {
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      max-width: 16ch;
+      text-transform: uppercase;
+      color: #5a3e36;
+    }
+
+    .boba-right-page-subtitle {
+      max-width: 33ch;
+      font-size: 14px;
+      margin-top: 10px;
+      line-height: 1.4;
+      color: #94716b;
+    }
+
+    .boba-right-container {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px dotted #ffb6c1;
+    }
+
+    .right-boba {
+      display: flex;
+      flex-direction: column;
+      border-left: 2px dotted #ffb6c1;
+    }
+
+    .square-feature {
+      width: calc(100% - 40px);
+      aspect-ratio: 1/1;
+      background-color: #ff85a2;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      margin: 20px;
+      position: relative;
+      border-radius: 10px;
+      box-shadow: 8px 8px 0 #ffd1dc;
+    }
+
+    .square-feature::after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      border: 2px dotted #fff;
+      border-radius: 5px;
+      pointer-events: none;
+    }
+
+    .square-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-family: 'VT323', monospace;
+      text-transform: uppercase;
+    }
+
+    .square-subtitle {
+      max-width: 30ch;
+      font-size: 14px;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+
+    .square-footer {
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      text-transform: uppercase;
+      position: relative;
+      padding: 5px 10px;
+      border: 2px dotted #fff;
+      border-radius: 4px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .square-footer:hover {
+      background-color: #fff;
+      color: #ff85a2;
+    }
+
+    /* Media Queries */
+    @media screen and (max-width: 1030px) {
+      .boba-shop {
+        grid-template-columns: 20% 50% 30%;
+      }
+      
+      .is-menu {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .boba-shop {
+        grid-template-columns: 25% 75%;
+      }
+      
+      .right-boba {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 560px) {
+      .boba-shop {
+        grid-template-columns: 100%;
+      }
+      
+      .boba-is-sticky, .page-number {
+        display: none;
+      }
+      
+      body {
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="boba-shop">
+    <!-- Left Menu -->
+    <div class="boba-part is-menu">
+      <a href="#" class="boba-menu">
+        Menu
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M7 17L17 7M7 7h10v10" />
+        </svg>
+      </a>
+      <a href="Location-page.html" class="boba-menu">Locations</a>
+      <a href="Reward-page.html" class="boba-menu">Rewards</a>
+      <a href="Contact-Page.html" class="boba-menu">Contact</a>
+      <a href="thejashwini1800@gmail.com" class="boba-menu mention">@thej1812</a>
+      
+    </div>
+    
+    <!-- Page Number Section -->
+    <div class="boba-header boba-is-sticky">
+      <div class="boba-article header-article">
+        <div class="boba-big__title">PIXEL</div>
+        <div class="boba-menu rounded small-title">BOBA PARADISE</div>
+      </div>
+      <div class="boba-article page-number">
+        BOBA
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="boba-header-container">
+      <!-- First Boba Tea -->
+      <div class="boba-header">
+        <div class="boba-article header-article">
+          <div class="boba-big__title">TARO</div>
+          <div class="boba-menu small-title date">BESTSELLER</div>
+        </div>
+        <div class="boba-article">
+          <img src="/api/placeholder/500/300" alt="Taro Boba Tea">
+          <h2>Creamy <span>Taro</span> Milk Tea With Boba</h2>
+          <div class="boba-detail">
+            <span>Sweet & Creamy</span>
+            <span>$5.50</span>
+          </div>
+          <p>Our signature taro milk tea combines real taro root with premium tea and chewy boba pearls. A customer favorite with its distinctive purple color and unique flavor.</p>
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M15 10l5 5-5 5" />
+              <path d="M4 4v7a4 4 0 004 4h12" />
+            </svg>
+            Order Now
+          </a>
+        </div>
+      </div>
+      
+      <!-- Second Boba Tea -->
+      <div class="boba-header">
+        <div class="boba-article header-article">
+          <div class="boba-big__title">FRUIT</div>
+          <div class="boba-menu small-title date">REFRESHING</div>
+        </div>
+        <div class="boba-article">
+          <img src="/api/placeholder/500/300" alt="Strawberry Boba">
+          <h2>Fresh <span>Strawberry</span> Fruit Tea With Popping Boba</h2>
+          <div class="boba-detail">
+            <span>Light & Fruity</span>
+            <span>$5.95</span>
+          </div>
+          <p>Made with real strawberries and our special jasmine tea blend, topped with strawberry popping boba that bursts with flavor in every sip!</p>
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M15 10l5 5-5 5" />
+              <path d="M4 4v7a4 4 0 004 4h12" />
+            </svg>
+            Order Now
+          </a>
+        </div>
+      </div>
+      
+      <!-- Third Boba Tea -->
+      <div class="boba-header">
+        <div class="boba-article header-article">
+          <div class="boba-big__title">MATCHA</div>
+          <div class="boba-menu small-title date">TRADITIONAL</div>
+        </div>
+        <div class="boba-article">
+          <img src="/api/placeholder/500/300" alt="Matcha Boba">
+          <h2>Premium <span>Matcha</span> Latte With Brown Sugar Boba</h2>
+          <div class="boba-detail">
+            <span>Rich & Earthy</span>
+            <span>$6.25</span>
+          </div>
+          <p>Our ceremonial grade matcha is whisked to perfection and combined with creamy milk and hand-crafted brown sugar boba pearls for a modern twist on tradition.</p>
+          <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+              <path d="M15 10l5 5-5 5" />
+              <path d="M4 4v7a4 4 0 004 4h12" />
+            </svg>
+            Order Now
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right Sidebar -->
+    <div class="boba-part right-boba">
+      <div class="news-ticker">
+        <div class="ticker-content">
+          <span class="ticker-item">NEW! Brown Sugar Milk Tea with Cheese Foam</span>
+          <span class="ticker-item">Buy One Get One 50% Off Every Tuesday</span>
+          <span class="ticker-item">Download Our App For Exclusive Rewards</span>
+        </div>
+      </div>
+      <div class="boba-right-title-container">
+        <div class="boba-right-title">
+          Customer Favorites
+        </div>
+        <div class="boba-menu rounded">See All</div>
+      </div>
+      <div class="boba-right">
+        <div class="boba-right-container">
+          <div class="boba-title-date">
+            <div class="boba-right-page">1</div>
+            <div class="date">TOP PICK</div>
+          </div>
+          <div class="boba-right-page-title">Brown Sugar Milk Tea</div>
+          <div class="boba-right-page-subtitle">Creamy milk tea with caramelized brown sugar syrup and extra chewy boba pearls.</div>
+        </div>
+        <div class="boba-right-container">
+          <div class="boba-title-date">
+            <div class="boba-right-page">2</div>
+            <div class="date">POPULAR</div>
+          </div>
+          <div class="boba-right-page-title">Mango Fruit Tea</div>
+          <div class="boba-right-page-subtitle">Refreshing jasmine tea with real mango puree and rainbow jelly toppings.</div>
+        </div>
+        <div class="boba-right-container">
+          <div class="boba-title-date">
+            <div class="boba-right-page">3</div>
+            <div class="date">SEASONAL</div>
+          </div>
+          <div class="boba-right-page-title">Lavender Honey Milk Tea</div>
+          <div class="boba-right-page-subtitle">A soothing blend of floral lavender and sweet honey with classic boba pearls.</div>
+        </div>
+        <div class="boba-right-container">
+          <div class="boba-title-date">
+            <div class="boba-right-page">4</div>
+            <div class="date">NEW</div>
+          </div>
+          <div class="boba-right-page-title">Ube Coconut Dream</div>
+          <div class="boba-right-page-subtitle">Philippine purple yam blended with coconut milk and topped with coconut jelly.</div>
+        </div>
+        
+        <div class="square-feature">
+          <div class="square-title">LOYALTY PROGRAM</div>
+          <div class="square-subtitle">Join our Boba Club and earn points with every purchase. Free drink on your birthday!</div>
+          <div class="square-footer">JOIN NOW</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

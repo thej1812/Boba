@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boba Home</title>
+  <link rel="icon" type="image/png" href="boba.png" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=VT323&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+    * {
+      outline: none;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: #fff5f7;
+      font-family: 'Quicksand', sans-serif;
+      color: #5a3e36;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      padding: 2em;
+      height: 100vh;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .boba-shop {
+      background-color: #fff;
+      max-width: 1350px;
+      display: grid;
+      height: 90vh;
+      max-height: 800px;
+      overflow: hidden;
+      grid-template-columns: 15% 20% 65%;
+      width: 100%;
+      position: relative;
+      border: 4px solid #ffb6c1;
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(252, 186, 211, 0.3);
+    }
+
+    /* Pastel Pixel Grid overlay */
+    .boba-shop::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        linear-gradient(to right, transparent 99%, rgba(255, 182, 193, 0.2) 100%),
+        linear-gradient(to bottom, transparent 99%, rgba(255, 182, 193, 0.2) 100%);
+      background-size: 20px 20px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .boba-part {
+      padding: 20px;
+      position: relative;
+      border-right: 2px dotted #ffb6c1;
+    }
+
+    .boba-menu {
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      text-decoration: none;
+      color: #5a3e36;
+      display: flex;
+      align-items: center;
+      letter-spacing: 1px;
+      padding: 10px 0;
+      border-bottom: 2px dotted transparent;
+      transition: all 0.3s;
+    }
+
+    .boba-menu:hover {
+      border-bottom-color: #ffb6c1;
+      color: #ff85a2;
+      transform: translateX(5px);
+    }
+
+    .boba-menu svg {
+      width: 18px;
+      margin-left: 8px;
+    }
+
+    .boba-menu + .boba-menu {
+      margin-top: 15px;
+    }
+
+    .boba-menu.mention {
+      margin-top: auto;
+      font-size: 18px;
+      color: #ff85a2;
+    }
+
+    .boba-menu.subscribe {
+      margin-top: 8px;
+      font-size: 18px;
+      position: relative;
+    }
+
+    .boba-menu.subscribe:before {
+      content: "▢";
+      margin-right: 10px;
+      font-size: 20px;
+      color: #ffb6c1;
+    }
+
+    .boba-menu.rounded:before {
+      content: "●";
+      margin-right: 10px;
+      font-size: 16px;
+      color: #ff85a2;
+    }
+
+    .boba-menu.active {
+      color: #ff85a2;
+      border-bottom-color: #ffb6c1;
+      transform: translateX(5px);
+    }
+
+    .is-menu {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background-color: #fff9fb;
+    }
+
+    .boba-big__title {
+      font-size: 70px;
+      font-family: 'VT323', monospace;
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      color: #ff85a2;
+      text-shadow: 3px 3px 0 #ffb6c1;
+    }
+
+    .boba-header {
+      display: flex;
+      flex-direction: column;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      border-bottom: 2px dotted #ffb6c1;
+    }
+
+    .page-number {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+      font-size: 60px;
+      text-align: center;
+      letter-spacing: -3px;
+      font-weight: 700;
+      font-family: 'VT323', monospace;
+      border-right: 2px dotted #ffb6c1;
+      padding-bottom: 20px;
+      color: #ff85a2;
+    }
+
+    .small-title {
+      border-bottom: 2px dotted #ffb6c1;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      font-family: 'VT323', monospace;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #ff85a2;
+    }
+
+    .date {
+      display: flex;
+      justify-content: flex-end;
+      font-family: 'VT323', monospace;
+      font-size: 14px;
+      color: #5a3e36;
+    }
+
+    .rewards-container {
+      display: flex;
+      flex-direction: column;
+      padding: 30px;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .rewards-header {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+
+    .rewards-title {
+      font-size: 32px;
+      font-weight: 700;
+      font-family: 'VT323', monospace;
+      text-transform: uppercase;
+      color: #ff85a2;
+      text-shadow: 2px 2px 0 #ffb6c1;
+    }
+
+    .rewards-subtitle {
+      font-size: 18px;
+      margin-top: 10px;
+      color: #5a3e36;
+    }
+
+    .rewards-content {
+      overflow-y: auto;
+      padding-right: 10px;
+      padding-bottom: 30px;
+      flex-grow: 1;
+    }
+
+    .rewards-content::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .rewards-content::-webkit-scrollbar-track {
+      background: #fff9fb;
+      border-radius: 10px;
+    }
+
+    .rewards-content::-webkit-scrollbar-thumb {
+      background-color: #ffb6c1;
+      border-radius: 10px;
+      border: 3px solid #fff9fb;
+    }
+
+    .reward-card {
+      background-color: #fff9fb;
+      border: 2px solid #ffb6c1;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 5px 5px 0 #ffd1dc;
+      transition: transform 0.3s ease;
+    }
+
+    .reward-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .reward-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .reward-name {
+      font-family: 'VT323', monospace;
+      font-size: 24px;
+      font-weight: 700;
+      color: #ff85a2;
+      text-transform: uppercase;
+    }
+
+    .reward-points {
+      font-family: 'VT323', monospace;
+      font-size: 22px;
+      font-weight: 700;
+      color: #5a3e36;
+      background-color: #ffd1dc;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 2px dotted #ff85a2;
+    }
+
+    .reward-description {
+      line-height: 1.5;
+      margin-bottom: 15px;
+      color: #5a3e36;
+    }
+
+    .reward-button {
+      font-family: 'VT323', monospace;
+      background-color: #ff85a2;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 2px dotted transparent;
+      text-transform: uppercase;
+    }
+
+    .reward-button:hover {
+      background-color: white;
+      color: #ff85a2;
+      border: 2px dotted #ff85a2;
+    }
+
+    .progress-container {
+      position: relative;
+      height: 25px;
+      background-color: #ffd1dc;
+      border-radius: 20px;
+      margin: 40px 0 20px 0;
+      border: 2px dotted #ff85a2;
+      flex-shrink: 0;
+    }
+
+    .progress-bar {
+      position: absolute;
+      height: 100%;
+      background-color: #ff85a2;
+      border-radius: 20px;
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .progress-label {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      color: #5a3e36;
+    }
+
+    .boba-points {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 2px solid #ffb6c1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      color: #ff85a2;
+      top: -8px;
+    }
+
+    .boba-points.filled {
+      background-color: #ff85a2;
+      color: #fff;
+    }
+
+    .boba-points:nth-child(1) {
+      left: 10%;
+    }
+    .boba-points:nth-child(2) {
+      left: 30%;
+    }
+    .boba-points:nth-child(3) {
+      left: 50%;
+    }
+    .boba-points:nth-child(4) {
+      left: 70%;
+    }
+    .boba-points:nth-child(5) {
+      left: 90%;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-family: 'VT323', monospace;
+      flex-shrink: 0;
+    }
+
+    .legend-start {
+      color: #5a3e36;
+    }
+
+    .legend-end {
+      color: #5a3e36;
+    }
+
+    .tier-indicator {
+      display: inline-block;
+      font-family: 'VT323', monospace;
+      background-color: #ffd1dc;
+      color: #5a3e36;
+      padding: 3px 8px;
+      border-radius: 5px;
+      margin-left: 10px;
+      border: 1px dotted #ff85a2;
+    }
+
+    .tier-gold {
+      background-color: #ffd700;
+      color: #5a3e36;
+    }
+
+    .pixel-decoration {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: #ffb6c1;
+      border-radius: 2px;
+    }
+
+    .pixel-1 {
+      top: 50px;
+      right: 60px;
+    }
+
+    .pixel-2 {
+      top: 60px;
+      right: 50px;
+    }
+
+    .pixel-3 {
+      top: 60px;
+      right: 70px;
+    }
+
+    .pixel-4 {
+      top: 70px;
+      right: 60px;
+    }
+
+    /* Media Queries */
+    @media screen and (max-width: 1030px) {
+      .boba-shop {
+        grid-template-columns: 20% 80%;
+      }
+      
+      .boba-is-sticky {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .boba-shop {
+        grid-template-columns: 100%;
+        height: auto;
+        max-height: none;
+      }
+      
+      .is-menu {
+        display: none;
+      }
+      
+      .rewards-content {
+        max-height: 500px;
+      }
+    }
+
+    @media screen and (max-width: 560px) {
+      body {
+        padding: 0;
+      }
+      
+      .rewards-container {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="boba-shop">
+    <!-- Left Menu -->
+    <div class="boba-part is-menu">
+      <a href="index.html" class="boba-menu">
+        Menu
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M7 17L17 7M7 7h10v10" />
+        </svg>
+      </a>
+      <a href="Location-page.html" class="boba-menu">Locations</a>
+      <a href="Reward-page.html" class="boba-menu active">Rewards</a>
+      <a href="Contact-Page.html" class="boba-menu">Contact</a>
+      <a href="thejashwini1800@gmail.com" class="boba-menu mention">@thej1812</a>
+     
+    </div>
+    
+    <!-- Page Number Section -->
+    <div class="boba-header boba-is-sticky">
+      <div class="boba-article header-article">
+        <div class="boba-big__title">PIXEL</div>
+        <div class="boba-menu rounded small-title">BOBA PARADISE</div>
+      </div>
+      <div class="boba-article page-number">
+        REWARDS
+      </div>
+    </div>
+    
+    <!-- Rewards Content -->
+    <div class="rewards-container">
+      <div class="pixel-decoration pixel-1"></div>
+      <div class="pixel-decoration pixel-2"></div>
+      <div class="pixel-decoration pixel-3"></div>
+      <div class="pixel-decoration pixel-4"></div>
+      
+      <div class="rewards-header">
+        <div class="rewards-title">Boba Rewards Program</div>
+        <div class="rewards-subtitle">Earn points with every purchase and unlock exclusive rewards!</div>
+      </div>
+      
+      <div class="progress-container">
+        <div class="progress-label">Your Progress: 37 Points</div>
+        <div class="progress-bar" style="width: 37%"></div>
+        <div class="boba-points filled">10</div>
+        <div class="boba-points filled">25</div>
+        <div class="boba-points filled">35</div>
+        <div class="boba-points">50</div>
+        <div class="boba-points">75</div>
+      </div>
+      
+      <div class="legend">
+        <div class="legend-start">Boba Buddy</div>
+        <div class="legend-end">Boba Master</div>
+      </div>
+      
+      <div class="rewards-content">
+        <div class="reward-card">
+          <div class="reward-card-header">
+            <div class="reward-name">Free Topping <span class="tier-indicator">Silver</span></div>
+            <div class="reward-points">10 pts</div>
+          </div>
+          <div class="reward-description">
+            Add any topping of your choice to your favorite drink for free! Choose from boba pearls, grass jelly, coconut jelly, and more.
+          </div>
+          <button class="reward-button">Redeem</button>
+        </div>
+        
+        <div class="reward-card">
+          <div class="reward-card-header">
+            <div class="reward-name">Upgrade Size <span class="tier-indicator">Silver</span></div>
+            <div class="reward-points">15 pts</div>
+          </div>
+          <div class="reward-description">
+            Upgrade your medium drink to a large size for free! More boba goodness to enjoy!
+          </div>
+          <button class="reward-button">Redeem</button>
+        </div>
+        
+        <div class="reward-card">
+          <div class="reward-card-header">
+            <div class="reward-name">Specialty Drink <span class="tier-indicator">Silver</span></div>
+            <div class="reward-points">25 pts</div>
+          </div>
+          <div class="reward-description">
+            Try one of our signature specialty drinks for free! Available in any size with one topping included.
+          </div>
+          <button class="reward-button">Redeem</button>
+        </div>
+        
+        <div class="reward-card">
+          <div class="reward-card-header">
+            <div class="reward-name">Boba Buddy Treat <span class="tier-indicator">Gold</span></div>
+            <div class="reward-points">35 pts</div>
+          </div>
+          <div class="reward-description">
+            Treat a friend to a free medium classic milk tea with boba! Share the boba love with someone special.
+          </div>
+          <button class="reward-button">Redeem</button>
+        </div>
+        
+        <div class="reward-card">
+          <div class="reward-card-header">
+            <div class="reward-name">Custom Drink <span class="tier-indicator">Gold</span></div>
+            <div class="reward-points">50 pts</div>
+          </div>
+          <div class="reward-description">
+            Create your own custom drink with our baristas! Choose any base, flavor, sweetness level, and up to three toppings.
+          </div>
+          <button class="reward-button">Redeem Soon</button>
+        </div>
+        
+        <div class="reward-card">
+          <div class="reward-card-header">
+            <div class="reward-name">Limited Edition Cup <span class="tier-indicator tier-gold">Platinum</span></div>
+            <div class="reward-points">75 pts</div>
+          </div>
+          <div class="reward-description">
+            Receive a limited edition Pixel Boba reusable cup with your name custom-pixelated on it! Plus, get 10% off all future drinks when you bring your cup.
+          </div>
+          <button class="reward-button">Redeem Soon</button>
+        </div>
+        
+        <div class="reward-card">
+          <div class="reward-card-header">
+            <div class="reward-name">Boba Party Pack <span class="tier-indicator tier-gold">Platinum</span></div>
+            <div class="reward-points">100 pts</div>
+          </div>
+          <div class="reward-description">
+            Host a boba party with our Party Pack! Includes 6 medium drinks of your choice, assorted toppings, and exclusive Pixel Boba stickers.
+          </div>
+          <button class="reward-button">Redeem Soon</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boba Home</title>
+  <link rel="icon" type="image/png" href="boba.png" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=VT323&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+    * {
+      outline: none;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: #fff5f7;
+      font-family: 'Quicksand', sans-serif;
+      color: #5a3e36;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      padding: 2em;
+      height: 100vh;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .boba-shop {
+      background-color: #fff;
+      max-width: 1350px;
+      display: grid;
+      height: 90vh;
+      max-height: 800px;
+      overflow: hidden;
+      grid-template-columns: 15% 85%;
+      width: 100%;
+      position: relative;
+      border: 4px solid #ffb6c1;
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(252, 186, 211, 0.3);
+    }
+
+    /* Pastel Pixel Grid overlay */
+    .boba-shop::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        linear-gradient(to right, transparent 99%, rgba(255, 182, 193, 0.2) 100%),
+        linear-gradient(to bottom, transparent 99%, rgba(255, 182, 193, 0.2) 100%);
+      background-size: 20px 20px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .boba-part {
+      padding: 20px;
+      position: relative;
+      border-right: 2px dotted #ffb6c1;
+    }
+
+    .boba-menu {
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      text-decoration: none;
+      color: #5a3e36;
+      display: flex;
+      align-items: center;
+      letter-spacing: 1px;
+      padding: 10px 0;
+      border-bottom: 2px dotted transparent;
+      transition: all 0.3s;
+    }
+
+    .boba-menu:hover {
+      border-bottom-color: #ffb6c1;
+      color: #ff85a2;
+      transform: translateX(5px);
+    }
+
+    .boba-menu svg {
+      width: 18px;
+      margin-left: 8px;
+    }
+
+    .boba-menu + .boba-menu {
+      margin-top: 15px;
+    }
+
+    .boba-menu.mention {
+      margin-top: auto;
+      font-size: 18px;
+      color: #ff85a2;
+    }
+
+    .boba-menu.subscribe {
+      margin-top: 8px;
+      font-size: 18px;
+      position: relative;
+    }
+
+    .boba-menu.subscribe:before {
+      content: "▢";
+      margin-right: 10px;
+      font-size: 20px;
+      color: #ffb6c1;
+    }
+
+    .boba-menu.rounded:before {
+      content: "●";
+      margin-right: 10px;
+      font-size: 16px;
+      color: #ff85a2;
+    }
+
+    .is-menu {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background-color: #fff9fb;
+    }
+
+    .locations-container {
+      padding: 30px;
+      overflow-y: auto;
+      height: 100%;
+    }
+
+    .boba-big__title {
+      font-size: 70px;
+      font-family: 'VT323', monospace;
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      color: #ff85a2;
+      text-shadow: 3px 3px 0 #ffb6c1;
+    }
+
+    .small-title {
+      border-bottom: 2px dotted #ffb6c1;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      font-family: 'VT323', monospace;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: #ff85a2;
+    }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .location-card {
+      background-color: #fff;
+      border: 2px solid #ffb6c1;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 8px 8px 0 #ffd1dc;
+      transition: transform 0.3s;
+      position: relative;
+    }
+
+    .location-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .location-image {
+      height: 180px;
+      width: 100%;
+      object-fit: cover;
+      border-bottom: 2px dotted #ffb6c1;
+    }
+
+    .location-content {
+      padding: 20px;
+    }
+
+    .location-title {
+      font-family: 'VT323', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #5a3e36;
+      text-transform: uppercase;
+    }
+
+    .location-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: #ff85a2;
+      color: white;
+      font-family: 'VT323', monospace;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .location-address {
+      font-size: 15px;
+      margin-bottom: 10px;
+      color: #5a3e36;
+      line-height: 1.5;
+    }
+
+    .location-hours {
+      font-size: 14px;
+      color: #94716b;
+      margin-bottom: 20px;
+    }
+
+    .location-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 2px dotted #ffb6c1;
+      padding-top: 15px;
+      margin-top: 15px;
+    }
+
+    .location-phone {
+      font-family: 'VT323', monospace;
+      font-size: 16px;
+      color: #5a3e36;
+    }
+
+    .location-link {
+      font-family: 'VT323', monospace;
+      text-decoration: none;
+      color: #ff85a2;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+
+    .location-link:hover {
+      color: #5a3e36;
+    }
+
+    .location-link svg {
+      width: 16px;
+      margin-left: 5px;
+    }
+
+    .location-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .filter-button {
+      background-color: #fff;
+      border: 2px dotted #ffb6c1;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-family: 'VT323', monospace;
+      font-size: 16px;
+      color: #5a3e36;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-button:hover, .filter-button.active {
+      background-color: #ff85a2;
+      border-color: #ff85a2;
+      color: white;
+    }
+
+    .news-ticker {
+      font-family: 'VT323', monospace;
+      font-size: 16px;
+      background-color: #ffd1dc;
+      color: #5a3e36;
+      padding: 10px 0;
+      width: 100%;
+      flex-shrink: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .ticker-content {
+      display: inline-block;
+      animation: ticker 30s linear infinite;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .ticker-item {
+      display: inline-block;
+      margin-right: 50px;
+    }
+
+    .ticker-item::before {
+      content: "●";
+      margin-right: 10px;
+      margin-left: 10px;
+      color: #ff85a2;
+    }
+
+    .map-container {
+      width: 100%;
+      height: 250px;
+      background-color: #ffd1dc;
+      margin-top: 30px;
+      border-radius: 10px;
+      border: 2px solid #ffb6c1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-family: 'VT323', monospace;
+      color: #5a3e36;
+    }
+
+    .map-placeholder svg {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 10px;
+      color: #ff85a2;
+    }
+
+    /* Media Queries */
+    @media screen and (max-width: 768px) {
+      .boba-shop {
+        grid-template-columns: 100%;
+        height: auto;
+      }
+      
+      .is-menu {
+        display: none;
+      }
+      
+      .locations-container {
+        padding: 20px;
+      }
+      
+      .boba-big__title {
+        font-size: 50px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="boba-shop">
+    <!-- Left Menu -->
+    <div class="boba-part is-menu">
+      <a href="index.html" class="boba-menu">
+        Menu
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <path d="M7 17L17 7M7 7h10v10" />
+        </svg>
+      </a>
+      <a href="Location-page.html" class="boba-menu" style="color: #ff85a2; border-bottom-color: #ffb6c1;">Locations</a>
+      <a href="Reward-page.html" class="boba-menu">Rewards</a>
+      <a href="Contact-Page.html" class="boba-menu">Contact</a>
+      <a href="thejashwini1800@gmail.com" class="boba-menu mention">@thej1812</a>
+     
+    </div>
+    
+    <!-- Main Content -->
+    <div class="locations-container">
+      <div class="boba-big__title">OUR LOCATIONS</div>
+      <div class="boba-menu small-title">FIND YOUR NEAREST PIXEL BOBA</div>
+      
+      <div class="news-ticker">
+        <div class="ticker-content">
+          <span class="ticker-item">NEW LOCATION OPENING IN DOWNTOWN NEXT MONTH!</span>
+          <span class="ticker-item">FREE BOBA UPGRADE AT ALL LOCATIONS THIS WEEKEND</span>
+          <span class="ticker-item">CAMPUS LOCATION NOW OPEN UNTIL MIDNIGHT</span>
+        </div>
+      </div>
+      
+      <div class="location-filter">
+        <button class="filter-button active">All Locations</button>
+        <button class="filter-button">Downtown</button>
+        <button class="filter-button">University</button>
+        <button class="filter-button">Suburbs</button>
+        <button class="filter-button">Mall</button>
+      </div>
+      
+      <div class="location-grid">
+        <!-- Location 1 -->
+        <div class="location-card">
+          <div class="location-badge">NEW!</div>
+          <img src="/api/placeholder/400/200" alt="Downtown Location" class="location-image">
+          <div class="location-content">
+            <h3 class="location-title">Downtown</h3>
+            <p class="location-address">123 Pixel Street<br>New York, NY 10001</p>
+            <p class="location-hours">Monday - Friday: 9am - 9pm<br>Weekends: 10am - 10pm</p>
+            <div class="location-footer">
+              <div class="location-phone">(212) 555-1234</div>
+              <a href="#" class="location-link">
+                Directions
+                <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="16" height="16">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                  <path d="M15 3h6v6"></path>
+                  <path d="M10 14L21 3"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Location 2 -->
+        <div class="location-card">
+          <img src="/api/placeholder/400/200" alt="University Location" class="location-image">
+          <div class="location-content">
+            <h3 class="location-title">University</h3>
+            <p class="location-address">456 Campus Lane<br>New York, NY 10003</p>
+            <p class="location-hours">Monday - Thursday: 8am - 11pm<br>Friday - Sunday: 10am - Midnight</p>
+            <div class="location-footer">
+              <div class="location-phone">(212) 555-5678</div>
+              <a href="#" class="location-link">
+                Directions
+                <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="16" height="16">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                  <path d="M15 3h6v6"></path>
+                  <path d="M10 14L21 3"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Location 3 -->
+        <div class="location-card">
+          <div class="location-badge">POPULAR</div>
+          <img src="/api/placeholder/400/200" alt="Mall Location" class="location-image">
+          <div class="location-content">
+            <h3 class="location-title">Shopping Mall</h3>
+            <p class="location-address">789 Mall Circle, Level 2<br>New York, NY 10022</p>
+            <p class="location-hours">Monday - Saturday: 10am - 9pm<br>Sunday: 11am - 7pm</p>
+            <div class="location-footer">
+              <div class="location-phone">(212) 555-9012</div>
+              <a href="#" class="location-link">
+                Directions
+                <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="16" height="16">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                  <path d="M15 3h6v6"></path>
+                  <path d="M10 14L21 3"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Location 4 -->
+        <div class="location-card">
+          <img src="/api/placeholder/400/200" alt="Suburb Location" class="location-image">
+          <div class="location-content">
+            <h3 class="location-title">Parkside</h3>
+            <p class="location-address">101 Green Avenue<br>Brooklyn, NY 11215</p>
+            <p class="location-hours">Monday - Sunday: 9am - 8pm</p>
+            <div class="location-footer">
+              <div class="location-phone">(718) 555-3456</div>
+              <a href="#" class="location-link">
+                Directions
+                <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="16" height="16">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                  <path d="M15 3h6v6"></path>
+                  <path d="M10 14L21 3"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="map-container">
+        <div class="map-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+          </svg>
+          <span>PIXEL BOBA MAP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
